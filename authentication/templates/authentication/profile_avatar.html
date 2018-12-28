@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>avatar</title>
+</head>
+<body>
+    <h1>hi you gonna upload your image</h1>
+    <form action="{% url 'auth:profile_avatar' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="image">your image:</label>
+        <input type="file" name="image" id="image">
+        <br>
+        <input type="submit" value="send">
+    </form>
+</body>
+</html>

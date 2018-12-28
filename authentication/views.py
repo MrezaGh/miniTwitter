@@ -2,6 +2,7 @@ from django.shortcuts import render, reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from authentication.models import Avatar
 
 
 # Create your views here.
@@ -35,7 +36,6 @@ def log_in(request):
     return render(request, 'authentication/log_in.html')
 
 
-
 def log_out(request):
     logout(request)
     return HttpResponseRedirect(reverse('auth:index'))
@@ -44,4 +44,26 @@ def log_out(request):
 def profile(request):
     if not request.user.is_authenticated:
         return HttpResponse('hey hey, log in first')
-    return render(request, 'authentication/profile.html')
+
+    try:
+        # only me & god knew what I did here
+        # now only god knows
+        image = request.user.avatar_set.last().image  # todo
+        image = str(image)
+        image = image[image.index('/'):]
+        context = {'image': image}
+    except:
+        return render(request, 'authentication/profile.html')
+
+    return render(request, 'authentication/profile.html', context)
+
+
+def profile_avatar(request):
+    if not request.user.is_authenticated:
+        return HttpResponse('hey hey, log in first')
+    if request.POST:
+        avatar = Avatar(image=request.FILES['image'], user=request.user)
+        avatar.save()
+        return HttpResponseRedirect(reverse('auth:profile'))
+
+    return render(request, 'authentication/profile_avatar.html')
