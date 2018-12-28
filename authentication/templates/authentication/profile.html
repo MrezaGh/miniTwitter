@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>profile</title>
+</head>
+<body>
+    <h1>hey {{ user }}</h1>
+    <a href="{% url 'tweet:make_tweet' %}">send twits</a>
+    <br>
+    <a href="{% url 'auth:profile' %}avatar">upload your avatar</a>
+</body>
+</html>

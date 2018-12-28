@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Auth</title>
+</head>
+<body>
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+    select one:
+    <ul>
+        <li><a href="{% url 'auth:index' %}sign_up">sign up</a></li>
+        {% if not loggedIn %}
+            <li><a href="{% url 'auth:index' %}log_in">log in</a></li>
+        {% endif %}
+        {% if loggedIn %}
+            <li><a href="{% url 'auth:log_out' %}">log out</a></li>
+            <li><a href="{% url 'auth:profile' %}">profile</a></li>
+        {% endif %}
+
+    </ul>
+</body>
+</html>
