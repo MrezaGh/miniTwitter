@@ -1,6 +1,6 @@
 from django.contrib import admin
-from authentication.models import Avatar
+from tweet.models import Tweet
 
 
 # Register your models here.
-admin.site.register(Avatar)
+admin.site.register(Tweet)

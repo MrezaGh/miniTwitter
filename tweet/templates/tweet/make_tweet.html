@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>make tweet</title>
+</head>
+<body>
+    <h1>hi make some tweet for me</h1>
+    <form action="{% url 'tweet:make_tweet' %}" method="post">
+        {% csrf_token %}
+        <ul>
+            <li>
+                <label for="title">title:</label>
+                <input type="text" name="title" id="title">
+            </li>
+            <li>
+                <label for="content">content:</label>
+                <textarea name="content" id="content" cols="40" rows="10"></textarea>
+            </li>
+
+            <input type="submit" value="send">
+        </ul>
+    </form>
+</body>
+</html>

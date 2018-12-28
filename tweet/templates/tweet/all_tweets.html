@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Tweets</title>
+</head>
+<body>
+    <h1>Tweets:</h1>
+    <hr>
+    <hr>
+    <a href="{% url 'tweet:index' %}">get back</a>
+    {% for tweet in tweets %}
+        <h3>{{ tweet.title }}</h3>
+        <p>{{ tweet.content }}</p>
+        <aside>{{ tweet.date }}</aside>
+        <aside>written by: {{ tweet.user.username }}</aside>
+        <br>
+        <hr>
+        <br>
+
+    {% endfor %}
+
+</body>
+</html>

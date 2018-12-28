@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>your tweet</title>
+</head>
+<body>
+    <h1>{{ tweet.title }}</h1>
+    <p>{{ tweet.content }}</p>
+    <li>{{ tweet.date }}</li>
+    <div>
+        written by: {{ tweet.user.username }}
+    </div>
+    <a href="{% url 'tweet:index' %}">tweet page</a>
+</body>
+</html>
