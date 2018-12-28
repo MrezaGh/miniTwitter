@@ -44,18 +44,12 @@ def log_out(request):
 def profile(request):
     if not request.user.is_authenticated:
         return HttpResponse('hey hey, log in first')
-
-    try:
-        # only me & god knew what I did here
-        # now only god knows
-        image = request.user.avatar_set.last().image  # todo
-        image = str(image)
-        image = image[image.index('/'):]
+    avatar = request.user.avatar_set.last()
+    if avatar:
+        image = avatar.image
         context = {'image': image}
-    except:
-        return render(request, 'authentication/profile.html')
-
-    return render(request, 'authentication/profile.html', context)
+        return render(request, 'authentication/profile.html', context)
+    return render(request, 'authentication/profile.html')
 
 
 def profile_avatar(request):

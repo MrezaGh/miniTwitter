@@ -12,8 +12,7 @@
     <a href="{% url 'auth:profile' %}avatar">upload your avatar</a>
 
     {% if image %}
-        {% load static %}
-        <img src="{{ image }}" alt="your picture">
+        <img src="{{ image.url }}" alt="your picture">
     {% endif %}
 </body>
 </html>
