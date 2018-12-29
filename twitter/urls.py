@@ -24,4 +24,5 @@ urlpatterns = [
     path('auth/', include('authentication.urls')),
     path('', main_view.landing, name='landing'),
     path('tweet/', include('tweet.urls')),
+    path('api/', include('api.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
