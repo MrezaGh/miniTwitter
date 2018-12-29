@@ -10,6 +10,9 @@
     <a href="{% url 'tweet:make_tweet' %}">send twits</a>
     <br>
     <a href="{% url 'auth:profile' %}avatar">upload your avatar</a>
+    <br>
+    <a href="{% url 'api:generate_key' %}">generate key</a>
+    <br>
 
     {% if image %}
         <img src="{{ image.url }}" alt="your picture">
