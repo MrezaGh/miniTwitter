@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'authentication.apps.AuthenticationConfig',
     'tweet.apps.TweetConfig',
     'api.apps.ApiConfig',
+    'ids.apps.IdsConfig',
 ]
 
 MIDDLEWARE = [

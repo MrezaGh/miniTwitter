@@ -3,11 +3,18 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from authentication.models import Avatar
+from ids.views import block_attacks
 
 
 # Create your views here.
 
 def index(request):
+    authorization_sensitive = False
+    token_based = False
+    error = block_attacks(request, authorization_sensitive, False)
+    if error:
+        return error
+
     context = {'loggedIn': False}
     if request.user.is_authenticated:
         context = {'loggedIn': True}
@@ -42,6 +49,12 @@ def log_out(request):
 
 
 def profile(request):
+    authorization_sensitive = True
+    token_based = False
+    error = block_attacks(request, authorization_sensitive, token_based)
+    if error:
+        return error
+
     if not request.user.is_authenticated:
         return HttpResponse('hey hey, log in first')
     avatar = request.user.avatar_set.last()
@@ -61,3 +74,4 @@ def profile_avatar(request):
         return HttpResponseRedirect(reverse('auth:profile'))
 
     return render(request, 'authentication/profile_avatar.html')
+

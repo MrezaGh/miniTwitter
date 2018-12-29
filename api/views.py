@@ -5,9 +5,16 @@ from django.contrib.auth.models import User
 from django.utils.crypto import get_random_string
 from api.models import TokenV1, TokenV2
 from tweet.models import Tweet
+from ids.views import block_attacks
 
 
 def log_in(request):
+    authorized_sensitive = True
+    token_based = True
+    error = block_attacks(request, True, True)
+    if error:
+        return error
+
     # tutorial: you need to send request like this: username=<your username> password=<your password>
     username = request.GET.get('username')
     password = request.GET.get('password')
