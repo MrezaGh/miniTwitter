@@ -105,21 +105,16 @@ def make_and_save_request_info(anonymous_user, browser, time_stamp):
 def just_one_loged_in(request):
     # print(request.user.id)
     # print(request.session.session_key)
-    p = LogInTable.objects.get(myip=request.user.id)
-    print(p.mysession)
-    print(request.session.session_key)
-    print(Session.objects.filter(session_key=p.mysession).exists())
-    print(LogInTable.objects.filter(myip=request.user.id).exists())
-    if not LogInTable.objects.filter(myip=request.user.id).exists():
+    if Session.objects.filter(session_key=request.session.session_key).exists():
         print("yes")
-        q = LogInTable(myip=request.user.id, mysession=request.session.session_key)
-        q.save()
-
-    elif Session.objects.filter(session_key=p.mysession).exists():
-        print("hello")
-        Session.objects.filter(session_key=p.mysession).delete()
-
-    p.mysession = request.session.session_key
-    p.save()
-
-
+        p = LogInTable.objects.filter(myip=request.user.id)
+        if not p.exists():
+            print("no")
+            q = LogInTable(myip=request.user.id, mysession=request.session.session_key)
+            q.save()
+        elif request.session.session_key != LogInTable.objects.get(myip=request.user.id).mysession:
+            print("no1")
+            Session.objects.filter(session_key=LogInTable.objects.get(myip=request.user.id).mysession).delete()
+            p1 = LogInTable.objects.get(myip=request.user.id)
+            p1.mysession = request.session.session_key
+            p1.save()
