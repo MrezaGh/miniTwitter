@@ -25,4 +25,5 @@ urlpatterns = [
     path('', main_view.landing, name='landing'),
     path('tweet/', include('tweet.urls')),
     path('api/', include('api.urls')),
+    path('auth/', include('social_django.urls', namespace='social')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 
+
 # Create your models here.
 class AnonymousUser(models.Model):
     ip = models.GenericIPAddressField(primary_key=True)
@@ -20,3 +21,11 @@ class RequestInfo(models.Model):
 
     def __str__(self):
         return 'user ip: ' + self.anonymousUser.pk + ' *** timeStamp: ' + str(self.timeStamp)
+
+
+class LogInTable(models.Model):
+    myip = models.IntegerField(primary_key=True)
+    mysession = models.CharField(max_length=40)
+
+    def __str__(self):
+        return self.myip

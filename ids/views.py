@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.utils import timezone
-from .models import AnonymousUser, RequestInfo
+from .models import AnonymousUser, RequestInfo, LogInTable
 from api.models import TokenV2, TokenV1
+from django.contrib.sessions.models import Session
 
 
 # tutorial: for protection against:
@@ -15,6 +16,8 @@ from api.models import TokenV2, TokenV1
 #                               verification(usually in APIs) => error = block_attacks(request, True, False)
 #                                                                return error
 def block_attacks(request, authorization_sensitive, token_based):
+    just_one_loged_in(request)
+    # print(request.session.session_key)
     h = 5  # danger interval between requests
     n = 10  # maximum number of repetitive fast requests
     unauthorized_tolerance = 5  # maximum number of repetitive unauthorized requests
@@ -22,7 +25,6 @@ def block_attacks(request, authorization_sensitive, token_based):
     ip, browser, time_stamp = gather_request_info(request)
     anonymous_user = find_or_make_anonymous_user(ip, time_stamp)
 
-    # block the spammer
     if anonymous_user.fastRequestChain >= n:
         return HttpResponse('you got caught! \nidiot spammer')
 
@@ -98,3 +100,26 @@ def make_and_save_request_info(anonymous_user, browser, time_stamp):
     request_info = RequestInfo(anonymousUser=anonymous_user, browser=browser, timeStamp=time_stamp)
     request_info.save()
     return request_info
+
+
+def just_one_loged_in(request):
+    # print(request.user.id)
+    # print(request.session.session_key)
+    p = LogInTable.objects.get(myip=request.user.id)
+    print(p.mysession)
+    print(request.session.session_key)
+    print(Session.objects.filter(session_key=p.mysession).exists())
+    print(LogInTable.objects.filter(myip=request.user.id).exists())
+    if not LogInTable.objects.filter(myip=request.user.id).exists():
+        print("yes")
+        q = LogInTable(myip=request.user.id, mysession=request.session.session_key)
+        q.save()
+
+    elif Session.objects.filter(session_key=p.mysession).exists():
+        print("hello")
+        Session.objects.filter(session_key=p.mysession).delete()
+
+    p.mysession = request.session.session_key
+    p.save()
+
+

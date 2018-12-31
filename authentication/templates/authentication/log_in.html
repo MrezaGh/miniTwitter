@@ -5,6 +5,7 @@
     <title>Log in</title>
 </head>
 <body>
+<a href="{% url 'social:begin' 'google-oauth2' %}">login with google</a>
     <h1>Log In</h1>
     <form action="{% url 'auth:log_in' %}" method="post">
         {% csrf_token %}
